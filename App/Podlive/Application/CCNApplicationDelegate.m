@@ -8,6 +8,7 @@
 #import "CCNNotificationCoordinator.h"
 
 #import "NSApplication+MainMenu.h"
+#import "NSViewController+Podlive.h"
 #import "NSWindow+Podlive.h"
 
 @interface CCNApplicationDelegate () <NSUserNotificationCenterDelegate>
@@ -97,6 +98,10 @@
 }
 
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)sender hasVisibleWindows:(BOOL)flag {
+    if (!flag){
+        [[self window] makeKeyAndOrderFront:self];
+    }
+
     [NSApp activateIgnoringOtherApps:YES];
     [self populateMainWindow];
 
@@ -147,13 +152,21 @@
 }
 
 - (void)populateMainWindow {
-    if (self.window && self.window.isVisible) {
-        return;
+    if (self.window) {
+        if (self.window.isVisible) {
+            return;
+        }
+
+        if (!self.window.isKeyWindow) {
+            [self.window makeKeyAndOrderFront:self];
+            return;
+        }
     }
 
     if (!self.appViewController) {
         self.appViewController = CCNApplicationViewController.viewController;
     }
+    
     self.window = [NSWindow mainWindowWithContentViewController:self.appViewController];
 
     @weakify(self);

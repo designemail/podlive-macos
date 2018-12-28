@@ -11,6 +11,10 @@ Our backend is a [Parse-Server](http://parseplatform.org) which is used to colle
 
 ![](screenshot1.png)
 
+## Podlive in the Mac App Store
+
+If you are not familiar with programming and/or Xcode, you can of course [download the latest release of Podlive in the Mac App Store](https://itunes.apple.com/at/app/podlive/id1210411572?l=en&mt=12).
+
 ## How to contribute?
 The goal to develop this software was a lag of a personal need, at the beginning. It was just a fun and hobby project, and it still is being developed under the same premise.
 
@@ -25,15 +29,10 @@ In order to test your code you have to use our test-backend. This requires acces
 
 > **NOTE: To use these keys please send a request to our [email address](mailto:mail@podlive.io?Subject=Parse-Server-Key-Request)**.
 
-
 ## Developer Notes
 Podlive uses GitFlow. There are two branches, `master` and `develop`. The `develop` branch is our default branch. To make your (changes|fixes|additions) you just have to create your working branch with `develop` as parent. If you’re done, open a pull request.
 
 For more detailed code guidelines please have look at the [Developer Notes](Developer-Notes.md) document.
-
-## Dependencies
-
-This project uses [CCNKit](https://github.com/phranck/CCNKit) (it containes two frameworks, `CCNAppKit` and `CCNFoundation`) as a submodule. If you want do develop for Podlive, you have to keep that in mind and eventually update this submodule first.
 
 ## Work on Podlive
 
@@ -43,9 +42,6 @@ First you have to fork this repository into your own account. Then you follow th
 git clone https://github.com/YOURACCOUNT/podlive-macos.git
 cd podlive-macos/App
 pod install
-cd CCNKit
-git submodule init
-git submodule update
 ```
 
 ## Contact

@@ -14,6 +14,7 @@
 #import "CCNPlayerPlayPauseButton.h"
 
 #import "NSFont+Podlive.h"
+#import "NSView+Podlive.h"
 
 
 static const CGFloat kImageCornerRadius = 5.0;
@@ -88,7 +89,7 @@ static const CGFloat kLabelTopConstraintConstant = 2.0;
     channelStatusLabel.selectable = NO;
     channelStatusLabel.editable = NO;
     channelStatusLabel.bordered = NO;
-    channelStatusLabel.textColor = NSColor.disabledControlTextColor;
+    channelStatusLabel.textColor = [NSColor.controlTextColor colorWithAlphaComponent:0.42];
     channelStatusLabel.alignment = NSTextAlignmentCenter;
     channelStatusLabel.font = [NSFont fontWithName:NSFont.podliveRegularFontName size:13.0];
     self.channelStatusLabel = channelStatusLabel;

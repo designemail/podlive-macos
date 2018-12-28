@@ -16,9 +16,13 @@
 #import "CCNPreferencesAudio.h"
 #import "CCNPreferencesSync.h"
 
+#import "NSAppearance+Podlive.h"
 #import "NSApplication+MainMenu.h"
+#import "NSApplication+Tools.h"
 #import "NSColor+Podlive.h"
 #import "NSImage+Podlive.h"
+#import "NSImage+Tools.h"
+#import "NSViewController+Podlive.h"
 
 #import "PFUser+Podlive.h"
 
@@ -54,10 +58,11 @@ typedef void(^CCNLoginLogoutButtonAction)(__kindof NSButton *actionButton);
 }
 
 - (void)viewDidLoad {
-    [self setupUI];
-    [self setupNotifications];
-
     [super viewDidLoad];
+
+    [self setupUI];
+    [self setupConstraints];
+    [self setupNotifications];
 }
 
 - (void)viewWillAppear {
@@ -71,8 +76,6 @@ typedef void(^CCNLoginLogoutButtonAction)(__kindof NSButton *actionButton);
 
 - (void)setupUI {
     self.gridViewController = CCNChannelGridViewController.viewController;
-//    self.navigationController = [[CCNNavigationController alloc] initWithRootViewController:self.gridViewController];
-//    self.navigationController.view.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.gridViewController.view];
 
 
@@ -94,7 +97,7 @@ typedef void(^CCNLoginLogoutButtonAction)(__kindof NSButton *actionButton);
 
 // MARK: - Auto Layout
 
-- (void)updateViewConstraints {
+- (void)setupConstraints {
     if (!self.playerViewBottomConstraint) {
         self.playerViewBottomConstraint = [self.playerViewController.view.bottomAnchor constraintEqualToAnchor:self.playerViewController.view.superview.bottomAnchor];
         self.playerViewBottomConstraint.constant = kCCNPlayerViewHeight;
@@ -112,8 +115,6 @@ typedef void(^CCNLoginLogoutButtonAction)(__kindof NSButton *actionButton);
 
         self.playerViewBottomConstraint
     ]];
-
-    [super updateViewConstraints];
 }
 
 // MARK: - Custom Accessors
@@ -191,10 +192,7 @@ typedef void(^CCNLoginLogoutButtonAction)(__kindof NSButton *actionButton);
     static dispatch_once_t _onceToken;
     static CCNLoginLogoutButton *_button = nil;
 
-    @weakify(self);
     dispatch_once(&_onceToken, ^{
-        @strongify(self);
-
         let user = PFUser.currentUser;
         let avatarImage = [[NSImage anonymousAvatarWithSize:NSMakeSize(25.0, 25.0)] imageTintedWithColor:NSColor.userLoggedOutStatusColor];
 
