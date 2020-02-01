@@ -11,9 +11,11 @@ Our backend is a [Parse-Server](http://parseplatform.org) which is used to colle
 
 ![](screenshot1.png)
 
-## Podlive in the Mac App Store
+## Support the Developer
 
-If you are not familiar with programming and/or Xcode, you can of course [download the latest release of Podlive in the Mac App Store](https://itunes.apple.com/at/app/podlive/id1210411572?l=en&mt=12).
+You can download and use Podlive for macOS free of charge from the [Mac App Store](https://itunes.apple.com/at/app/podlive/id1210411572?l=en&mt=12). If you like it please be a kind person and support me on Patreon. I really, really appreciate it. It will keep me motivated to provide you with updates and even more features in the future... 😍
+
+<div align="center"><a href="https://www.patreon.com/bePatron?u=4853802" data-patreon-widget-type="become-patron-button"><img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160"></a></div>
 
 ## How to contribute?
 The goal to develop this software was a lag of a personal need, at the beginning. It was just a fun and hobby project, and it still is being developed under the same premise.
@@ -41,7 +43,10 @@ First you have to fork this repository into your own account. Then you follow th
 ```
 git clone https://github.com/YOURACCOUNT/podlive-macos.git
 cd podlive-macos/App
-pod install
+carthage update --no-use-binaries --platform macOS
+
+git submodule init
+git submodule update
 ```
 
 ## Contact

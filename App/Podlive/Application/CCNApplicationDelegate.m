@@ -45,24 +45,27 @@
     [self populateMainWindow];
 
     [CCNUserManager.sharedManager startListening];
+    [PFPush subscribeToChannelInBackground:CCNParseRealtimeNotifications];
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
-    [PFUser.currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (succeeded) {
-            [PFInstallation.currentInstallation saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    [PFPush unsubscribeFromChannelInBackground:CCNParseRealtimeNotifications block:^(BOOL succeeded, NSError * _Nullable error) {
+        [PFUser.currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (succeeded) {
+                [PFInstallation.currentInstallation saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    [NSApp replyToApplicationShouldTerminate:YES];
+                }];
+            }
+            else {
                 [NSApp replyToApplicationShouldTerminate:YES];
-            }];
-        }
-        else {
-            [NSApp replyToApplicationShouldTerminate:YES];
-        }
+            }
+        }];
     }];
     return NSTerminateLater;
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-    // Insert code here to tear down your application
+    
     let isAnonynousUser = [PFAnonymousUtils isLinkedWithUser:PFUser.currentUser];
     if (isAnonynousUser) {
         // if the user isn't logged in (anonymous) we have to keep the
@@ -82,8 +85,6 @@
             CCNLog(@"registration for push notifications failed: %@", error);
         }
         [CCNUserManager.sharedManager saveAnonymousUser];
-
-        [PFPush subscribeToChannelInBackground:@"realtimeNotifications"];
     }];
 }
 
@@ -120,7 +121,7 @@
         configuration.applicationId = CCNConstants.parseApplicationId;
         configuration.clientKey     = CCNConstants.parseClientKey;
         configuration.server        = CCNConstants.parseServerUrl;
-        NSLog(@"using parse server: %@", configuration.server);
+        CCNLog(@"using parse server: %@", configuration.server);
     }];
     [Parse initializeWithConfiguration:parseConfiguration];
 
